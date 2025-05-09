@@ -34,7 +34,7 @@ lib/redis.ts : configuration de Redis avec ioredis
 Mesuré avec le terminal Next.js (npm run dev)
 
 6 . **Capture des logs**
-![Logs](logs.png)
+![Logs](https://github.com/chamalyamani/redis-demo-app/blob/main/logs.png)
 
 📈 Vision de Scalabilité
 Voici comment je prévoirais de faire évoluer cette application pour des milliers voire millions d’utilisateurs :
