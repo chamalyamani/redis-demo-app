@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Redis Demo App
 
-## Getting Started
+Ce projet est une démonstration d'application Next.js utilisant Redis comme cache pour améliorer les performances de récupération de données depuis une API publique.
 
-First, run the development server:
+## 🚀 Fonctionnalités
 
+- Récupération de posts depuis `https://jsonplaceholder.typicode.com/posts`
+- Mise en cache avec Redis (TTL = 60 secondes)
+- Server-Side Rendering via App Router (`app/posts/page.tsx`)
+- Logique de fallback si les données n’existent pas dans le cache
+- Comparaison des performances avant/après cache
+
+## ⚙️ Installation et Lancement
+
+1. **Cloner le projet**
 ```bash
+git clone https://github.com/chamalyamani/redis-demo-app.git
+cd redis-demo-app
+2. ***Installer les dépendances*
+npm install
+3. **Lancer Redis avec Docker**
+docker run --name redis-dev -p 6379:6379 -d redis
+4. **Lancer le projet**
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+5 . **Aller sur http://localhost:3000/posts**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🔍 Structure du projet
+app/posts/page.tsx : page affichant les posts avec SSR + cache Redis
+lib/redis.ts : configuration de Redis avec ioredis
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🧪 Résultats de performance
+🌐 Sans cache : ~118 ms
+✅ Avec cache Redis : ~81 ms
+Mesuré avec le terminal Next.js (npm run dev)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+6 . **Capture des logs**
+(./public/logs.png)
 
-## Learn More
+📈 Vision de Scalabilité
+Voici comment je prévoirais de faire évoluer cette application pour des milliers voire millions d’utilisateurs :
 
-To learn more about Next.js, take a look at the following resources:
+Horizontal Scaling : Déployer l’app sur plusieurs serveurs via Docker ou Vercel pour équilibrer la charge.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Redis Cluster : Utiliser un cluster Redis pour répartir le cache entre plusieurs nœuds et assurer une haute disponibilité.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Microservices : Séparer les responsabilités (frontend, cache, API) pour une meilleure maintenabilité.
 
-## Deploy on Vercel
+Load Balancer : Mettre un équilibrage de charge (NGINX ou AWS ELB) pour répartir les requêtes efficacement.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+CDN : Utiliser un Content Delivery Network pour tout contenu statique, ce que Next.js supporte très bien via Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
